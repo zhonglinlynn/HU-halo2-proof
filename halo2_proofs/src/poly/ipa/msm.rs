@@ -11,28 +11,6 @@ use group::Group;
 
 use super::commitment::{IPACommitmentScheme, ParamsIPA};
 
-// /// A multiscalar multiplication in the polynomial commitment scheme
-// #[derive(Debug, Clone)]
-// pub struct MSMIPA<C: CurveAffine> {
-//     scalars: Vec<C::Scalar>,
-//     bases: Vec<C::Curve>,
-// }
-
-// impl<'a, C: CurveAffine> MSMIPA<C> {
-//     pub fn new() -> Self {
-//         Self {
-//             scalars: vec![],
-//             bases: vec![],
-//         }
-//     }
-
-//     /// Add another multiexp into this one
-//     pub fn add_msm(&mut self, other: &dyn MSM<C>) {
-//         self.scalars.extend(other.scalars().iter());
-//         self.bases.extend(other.bases().iter());
-//     }
-// }
-
 /// A multiscalar multiplication in the polynomial commitment scheme
 #[derive(Debug, Clone)]
 pub struct MSMIPA<'params, C: CurveAffine> {
