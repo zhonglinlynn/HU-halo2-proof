@@ -1,6 +1,7 @@
 use super::super::{util::*, AssignedBits, Bits, SpreadVar, SpreadWord, Table16Assignment};
 use super::{schedule_util::*, MessageScheduleConfig, MessageWord};
-use halo2_proofs::{circuit::Region, pasta::pallas, plonk::Error};
+use halo2_proofs::{circuit::Region, plonk::Error};
+use halo2curves::pasta::pallas;
 use std::convert::TryInto;
 
 /// A word in subregion 2
