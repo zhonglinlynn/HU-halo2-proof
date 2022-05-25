@@ -600,10 +600,9 @@ mod tests {
     use halo2_proofs::{
         circuit::{Layouter, SimpleFloorPlanner},
         dev::MockProver,
-        pasta::Fp,
         plonk::{Circuit, ConstraintSystem, Error},
     };
-    use pasta_curves::pallas;
+    use halo2curves::pasta::{pallas, Fp};
     use rand::rngs::OsRng;
 
     use super::{PoseidonInstructions, Pow5Chip, Pow5Config, StateWord};

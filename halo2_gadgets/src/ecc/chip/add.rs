@@ -5,7 +5,7 @@ use halo2_proofs::{
     plonk::{Advice, Column, ConstraintSystem, Constraints, Error, Expression, Selector},
     poly::Rotation,
 };
-use pasta_curves::{arithmetic::FieldExt, pallas};
+use halo2curves::{pasta::pallas, FieldExt};
 use std::collections::HashSet;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -386,7 +386,7 @@ impl Config {
 pub mod tests {
     use group::{prime::PrimeCurveAffine, Curve};
     use halo2_proofs::{circuit::Layouter, plonk::Error};
-    use pasta_curves::{arithmetic::CurveExt, pallas};
+    use halo2curves::{pasta::pallas, CurveExt};
 
     use crate::ecc::{chip::EccPoint, EccInstructions, NonIdentityPoint};
 

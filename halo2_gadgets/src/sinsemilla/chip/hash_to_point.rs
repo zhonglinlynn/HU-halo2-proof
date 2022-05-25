@@ -12,10 +12,8 @@ use halo2_proofs::{
 };
 
 use group::ff::{PrimeField, PrimeFieldBits};
-use pasta_curves::{
-    arithmetic::{CurveAffine, FieldExt},
-    pallas,
-};
+use halo2curves::pasta::pallas;
+use halo2curves::{CurveAffine, FieldExt};
 
 use std::ops::Deref;
 
@@ -133,7 +131,7 @@ where
             };
 
             use group::{prime::PrimeCurveAffine, Curve};
-            use pasta_curves::arithmetic::CurveExt;
+            use halo2curves::CurveExt;
 
             let field_elems: Option<Vec<pallas::Base>> =
                 message.iter().map(|piece| piece.field_elem()).collect();

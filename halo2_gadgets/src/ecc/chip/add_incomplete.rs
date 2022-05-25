@@ -8,7 +8,7 @@ use halo2_proofs::{
     plonk::{Advice, Column, ConstraintSystem, Constraints, Error, Selector},
     poly::Rotation,
 };
-use pasta_curves::{arithmetic::CurveAffine, pallas};
+use halo2curves::{pasta::pallas, CurveAffine};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Config {
@@ -163,7 +163,7 @@ impl Config {
 pub mod tests {
     use group::Curve;
     use halo2_proofs::{circuit::Layouter, plonk::Error};
-    use pasta_curves::pallas;
+    use halo2curves::pasta::pallas;
 
     use crate::ecc::{EccInstructions, NonIdentityPoint};
 

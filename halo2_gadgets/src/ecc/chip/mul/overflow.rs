@@ -11,7 +11,7 @@ use halo2_proofs::{
 };
 
 use ff::Field;
-use pasta_curves::{arithmetic::FieldExt, pallas};
+use halo2curves::{pasta::pallas, FieldExt};
 
 use std::iter;
 
