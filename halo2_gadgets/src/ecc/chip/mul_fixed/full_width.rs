@@ -8,7 +8,7 @@ use halo2_proofs::{
     plonk::{ConstraintSystem, Constraints, Error, Selector},
     poly::Rotation,
 };
-use halo2curves::{pasta::pallas, FieldExt};
+use halo2curves::pasta::pallas;
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Config<Fixed: FixedPoints<pallas::Affine>> {
