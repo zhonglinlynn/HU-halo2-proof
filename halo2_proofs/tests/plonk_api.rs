@@ -410,10 +410,9 @@ fn plonk_api() {
             lookup_table: lookup_table.clone(),
         };
         // Initialize the proving key
-        let vk =
-            keygen_vk::<Scheme, _>(&params, &empty_circuit).expect("keygen_vk should not fail");
+        let vk = keygen_vk::<Scheme, _>(params, &empty_circuit).expect("keygen_vk should not fail");
 
-        keygen_pk::<Scheme, _>(&params, vk, &empty_circuit).expect("keygen_pk should not fail")
+        keygen_pk::<Scheme, _>(params, vk, &empty_circuit).expect("keygen_pk should not fail")
     }
 
     fn create_proof<
@@ -442,8 +441,8 @@ fn plonk_api() {
         let mut transcript = TranscriptWrite::init(vec![]);
 
         create_plonk_proof::<Scheme, Prover, _, _, _, _>(
-            &params,
-            &pk,
+            params,
+            pk,
             &[circuit.clone(), circuit.clone()],
             &[&[&[instance]], &[&[instance]]],
             rng,
@@ -482,9 +481,9 @@ fn plonk_api() {
         let (_, instance, _) = common!();
         let pubinputs = vec![instance];
 
-        let mut transcript = TranscriptRead::init(&proof[..]);
+        let mut transcript = TranscriptRead::init(proof);
 
-        let strategy = Strategy::new(&params_verifier, rng);
+        let strategy = Strategy::new(params_verifier, rng);
         let strategy = verify_plonk_proof(
             params_verifier,
             vk,
@@ -521,7 +520,7 @@ fn plonk_api() {
             BatchVerifier<_, _>,
             _,
             _,
-        >(rng, &verifier_params, pk.get_vk(), &proof[..]);
+        >(rng, verifier_params, pk.get_vk(), &proof[..]);
     }
 
     fn test_plonk_api_gwc() {
@@ -548,7 +547,7 @@ fn plonk_api() {
             BatchVerifier<_, _>,
             _,
             _,
-        >(rng, &verifier_params, pk.get_vk(), &proof[..]);
+        >(rng, verifier_params, pk.get_vk(), &proof[..]);
     }
 
     fn test_plonk_api_shplonk() {
@@ -575,7 +574,7 @@ fn plonk_api() {
             BatchVerifier<_, _>,
             _,
             _,
-        >(rng, &verifier_params, pk.get_vk(), &proof[..]);
+        >(rng, verifier_params, pk.get_vk(), &proof[..]);
     }
 
     test_plonk_api_ipa();
