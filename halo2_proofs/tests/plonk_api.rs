@@ -79,12 +79,6 @@ fn plonk_api() {
         lookup_table: Vec<F>,
     }
 
-    // impl<F: FieldExt> MyCircuit<F> {
-    //     fn new(a: F) -> Self {
-    //         Self { a }
-    //     }
-    // }
-
     struct StandardPlonk<F: FieldExt> {
         config: PlonkConfig,
         _marker: PhantomData<F>,
