@@ -18,8 +18,8 @@
     clippy::upper_case_acronyms
 )]
 #![deny(broken_intra_doc_links)]
-#![deny(missing_debug_implementations)]
-#![deny(missing_docs)]
+//#![deny(missing_debug_implementations)]
+//#![deny(missing_docs)]
 #![deny(unsafe_code)]
 // Remove this once we update pasta_curves
 #![allow(unused_imports)]
@@ -28,9 +28,15 @@ pub mod arithmetic;
 pub mod circuit;
 pub use pairing;
 mod multicore;
+pub mod worker {
+    pub use super::multicore::*;
+}
 pub mod plonk;
+pub mod gpu;
 pub mod poly;
 pub mod transcript;
 
 pub mod dev;
 mod helpers;
+#[macro_use]
+extern crate lazy_static;
