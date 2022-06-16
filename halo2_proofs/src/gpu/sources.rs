@@ -1,6 +1,7 @@
 //use group::Group;
 use crate::arithmetic::Group;
 use ff_cl_gen as ffgen;
+use pairing::bn256::{Fr, Fq};
 
 // Instead of having a very large OpenCL program written for a specific curve, with a lot of
 // rudandant codes (As OpenCL doesn't have generic types or templates), this module will dynamically
@@ -46,15 +47,15 @@ where
 {
     vec![
         if limb64 {
-            ffgen::field::<G::Scalar, ffgen::Limb64>("Fr")
+            ffgen::field::<Fr, ffgen::Limb64>("Fr")
         } else {
-            ffgen::field::<G::Scalar, ffgen::Limb32>("Fr")
+            ffgen::field::<Fr, ffgen::Limb32>("Fr")
         },
         fft("Fr"),
         if limb64 {
-            ffgen::field::<G::Scalar, ffgen::Limb64>("Fq")
+            ffgen::field::<Fq, ffgen::Limb64>("Fq")
         } else {
-            ffgen::field::<G::Scalar, ffgen::Limb32>("Fq")
+            ffgen::field::<Fq, ffgen::Limb32>("Fq")
         },
         ec("Fq", "G1"),
         multiexp("G1", "Fr"),
