@@ -567,6 +567,7 @@ fn test_best_fft_multiple_gpu() {
         let start = start_timer!(|| message);
         best_fft(&mut prev_fft_coeffs, domain.get_omega(), k);
         end_timer!(start);
+        println!("coeffs cpu {:?}\n",prev_fft_coeffs);
 
         let message = format!("gpu_fft degree {}", k);
         let start = start_timer!(|| message);
@@ -584,6 +585,7 @@ fn test_best_fft_multiple_gpu() {
 
         end_timer!(start);
 
+        println!("coeffs gpu {:?}\n",optimized_fft_coeffs);
         assert_eq!(prev_fft_coeffs, optimized_fft_coeffs);
     }
 }
@@ -610,6 +612,8 @@ fn test_fft() {
         let start = start_timer!(|| message);
         best_fft(&mut prev_fft_coeffs, domain.get_omega(), k);
         end_timer!(start);
+
+        assert_eq!(prev_fft_coeffs, coeffs);
     }
 }
 
