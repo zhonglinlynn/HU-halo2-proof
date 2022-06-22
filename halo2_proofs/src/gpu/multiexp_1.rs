@@ -357,7 +357,7 @@ fn test_with_bls12() {
 
 pub fn create_multiexp_kernel<E>(_log_d: usize, priority: bool) -> Option<gpu::MultiexpKernel<E>>
     where
-        E: crate::pairing::Engine,
+        E: pairing_bn256::Engine,
 {
     match gpu::MultiexpKernel::<E>::create(priority) {
         Ok(k) => {

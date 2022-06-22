@@ -278,7 +278,7 @@ impl<E> MultiexpKernel<E>
         n: usize,
     ) -> GPUResult<<G as CurveAffine>::Projective>
         where
-            G::Engine: crate::pairing::Engine,
+            G::Engine: pairing_bn256::Engine,
     {
         let num_devices = self.kernels.len();
 
