@@ -110,10 +110,12 @@ impl Drop for PriorityLock {
 
 use super::error::{GPUError, GPUResult};
 use super::fft::MultiFFTKernel;
-//use super::multiexp::MultiexpKernel;
+use super::multiexp::MultiexpKernel;
 use crate::poly::domain::create_fft_kernel;
-//use crate::multiexp::create_multiexp_kernel;
+use super::multiexp_1::create_multiexp_kernel;
+
 //use crate::pairing::Engine;
+
 use std::env;
 use std::ops::Range;
 
@@ -197,9 +199,10 @@ locked_kernel!(
     create_fft_kernel,
     "FFT"
 );
-/*locked_kernel!(
+
+locked_kernel!(
     LockedMultiexpKernel,
     MultiexpKernel,
     create_multiexp_kernel,
     "Multiexp"
-);*/
+);
