@@ -41,7 +41,7 @@ fn multiexp(point: &str, exp: &str) -> String {
 }
 
 // WARNING: This function works only with Short Weierstrass Jacobian curves with Fq2 extension field.
-pub fn kernel<E>(limb64: bool) -> String
+pub fn kernel<G>(limb64: bool) -> String
 where
     G: Group,
 {
