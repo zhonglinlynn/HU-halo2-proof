@@ -3,6 +3,8 @@ use crate::arithmetic::Group;
 
 use ff_cl_gen as ffgen;
 
+use pairing::bn256::{Fr, Fq};
+
 // Instead of having a very large OpenCL program written for a specific curve, with a lot of
 // rudandant codes (As OpenCL doesn't have generic types or templates), this module will dynamically
 // generate OpenCL codes given different PrimeFields and curves.
