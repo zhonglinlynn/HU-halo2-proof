@@ -3,12 +3,25 @@ use super::locks;
 use super::sources;
 use super::utils;
 use crate::gpu::get_lock_name_and_gpu_range;
-use crate::multiexp::{dense_multiexp as cpu_dense_multiexp, FullDensity};
+
+use super::multiexp_1::{dense_multiexp as cpu_dense_multiexp, FullDensity};
+
 
 use crate::pairing::{
     ff::{PrimeField, ScalarEngine},
     CurveAffine, CurveProjective, Engine,
 };
+
+// use crate::pairing::ff::Field;
+// use crate::pairing::Engine;
+use group::ff::PrimeField;
+use group::Curve;
+
+
+
+use crate::arithmetic::Group;
+
+
 
 use crate::worker::Worker;
 use log::{error, info};

@@ -26,14 +26,27 @@ mod fft;
 #[cfg(feature = "gpu")]
 pub use self::fft::*;
 
-// #[cfg(feature = "gpu")]
-// mod multiexp;
-//
-// #[cfg(feature = "gpu")]
-// pub use self::multiexp::*;
+#[cfg(feature = "gpu")]
+mod multiexp;
+
+#[cfg(feature = "gpu")]
+pub use self::multiexp::*;
 
 #[cfg(not(feature = "gpu"))]
 mod nogpu;
 
 #[cfg(not(feature = "gpu"))]
 pub use self::nogpu::*;
+
+
+#[cfg(feature = "gpu")]
+mod multiexp_1;
+
+#[cfg(feature = "gpu")]
+pub use self::multiexp_1::*;
+
+#[cfg(feature = "gpu")]
+mod multicore;
+pub mod worker {
+    pub use super::multicore::*;
+}
