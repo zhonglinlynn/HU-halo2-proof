@@ -189,8 +189,8 @@ impl<G: Group> EvaluationDomain<G> {
     /// Returns an empty (zero) polynomial in the Lagrange coefficient basis, with
     /// deferred inversions.
     pub(crate) fn empty_lagrange_assigned(&self) -> Polynomial<Assigned<G>, LagrangeCoeff>
-    where
-        G: Field,
+        where
+            G: Field,
     {
         Polynomial {
             values: vec![G::group_zero().into(); self.n as usize],
@@ -490,9 +490,11 @@ pub struct PinnedEvaluationDomain<'a, G: Group> {
     omega: &'a G::Scalar,
 }
 
+/// Config gpu fft kernel
+#[cfg(feature = "gpu")]
 pub fn create_fft_kernel<G>(_log_d: usize, priority: bool) -> Option<gpu::MultiFFTKernel<G>>
-where
-    G: Group,
+    where
+        G: Group,
 {
     match gpu::MultiFFTKernel::create(priority) {
         Ok(k) => {
@@ -506,11 +508,11 @@ where
     }
 }
 
-use crate::worker::Worker;
+/// Wrap `gpu_fft_multiple`
+#[cfg(feature = "gpu")]
 pub fn best_fft_multiple_gpu<G: Group>(
     kern: &mut Option<gpu::LockedMultiFFTKernel<G>>,
     polys: &mut [&mut [G::Scalar]],
-    worker: &Worker,
     omega: &G::Scalar,
     log_n: u32,
 ) -> gpu::GPUResult<()> {
@@ -526,6 +528,8 @@ pub fn best_fft_multiple_gpu<G: Group>(
     Ok(())
 }
 
+/// Use multiple gpu fft
+#[cfg(feature = "gpu")]
 pub fn gpu_fft_multiple<G: Group>(
     kern: &mut gpu::MultiFFTKernel<G>,
     polys: &mut [&mut [G::Scalar]],
@@ -537,14 +541,12 @@ pub fn gpu_fft_multiple<G: Group>(
     Ok(())
 }
 
+#[cfg(feature = "gpu")]
 #[test]
 fn test_best_fft_multiple_gpu() {
     use crate::gpu::LockedMultiFFTKernel;
     use crate::pairing::bn256::Fr;
     use pairing::bn256::Bn256;
-    use crate::worker::Worker;
-
-    let worker = Worker::new();
 
     use crate::poly::{EvaluationDomain};
     use ark_std::{end_timer, start_timer};
@@ -567,7 +569,7 @@ fn test_best_fft_multiple_gpu() {
         let start = start_timer!(|| message);
         best_fft(&mut prev_fft_coeffs, domain.get_omega(), k);
         end_timer!(start);
-        println!("coeffs cpu {:?}\n",prev_fft_coeffs);
+        //println!("coeffs cpu {:?}\n",prev_fft_coeffs);
 
         let message = format!("gpu_fft degree {}", k);
         let start = start_timer!(|| message);
@@ -577,15 +579,14 @@ fn test_best_fft_multiple_gpu() {
         best_fft_multiple_gpu(
             &mut fft_kern,
             &mut [&mut optimized_fft_coeffs],
-            &worker,
-            &domain.get_omega_inv(),
+            &domain.get_omega(),
             k as u32,
         )
-        .unwrap();
+            .unwrap();
 
         end_timer!(start);
 
-        println!("coeffs gpu {:?}\n",optimized_fft_coeffs);
+        //println!("coeffs gpu {:?}\n",optimized_fft_coeffs);
         assert_eq!(prev_fft_coeffs, optimized_fft_coeffs);
     }
 }
@@ -612,8 +613,6 @@ fn test_fft() {
         let start = start_timer!(|| message);
         best_fft(&mut prev_fft_coeffs, domain.get_omega(), k);
         end_timer!(start);
-
-        assert_eq!(prev_fft_coeffs, coeffs);
     }
 }
 
