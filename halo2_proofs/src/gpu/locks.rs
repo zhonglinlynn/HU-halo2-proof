@@ -121,21 +121,21 @@ use std::ops::Range;
 
 macro_rules! locked_kernel {
     ($class:ident, $kern:ident, $func:ident, $name:expr) => {
-        pub struct $class<E>
+        pub struct $class<G>
         where
-            E: Engine,
+            G: Group,
         {
             log_d: usize,
             priority: bool,
-            kernel: Option<$kern<E>>,
+            kernel: Option<$kern<G>>,
         }
 
-        impl<E> $class<E>
+        impl<G> $class<G>
         where
-            E: Engine,
+            G: Group,
         {
-            pub fn new(log_d: usize, priority: bool) -> $class<E> {
-                $class::<E> {
+            pub fn new(log_d: usize, priority: bool) -> $class<G> {
+                $class::<G> {
                     log_d,
                     priority,
                     kernel: None,
@@ -146,7 +146,7 @@ macro_rules! locked_kernel {
                 if self.kernel.is_none() {
                     PriorityLock::wait(self.priority);
                     info!("GPU is available for {}!", $name);
-                    self.kernel = $func::<E>(self.log_d, self.priority);
+                    self.kernel = $func::<G>(self.log_d, self.priority);
                 }
             }
 
@@ -161,7 +161,7 @@ macro_rules! locked_kernel {
 
             pub fn with<F, R>(&mut self, mut f: F) -> GPUResult<R>
             where
-                F: FnMut(&mut $kern<E>) -> GPUResult<R>,
+                F: FnMut(&mut $kern<G>) -> GPUResult<R>,
             {
                 if let Ok(flag) = std::env::var("BELLMAN_USE_CPU") {
                     if flag == "1" {
