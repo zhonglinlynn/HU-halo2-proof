@@ -16,6 +16,7 @@ use rust_gpu_tools::*;
 use std::cmp::min;
 use std::{cmp, env};
 
+use std::ops::MulAssign;
 
 const LOG2_MAX_ELEMENTS: usize = 32; // At most 2^32 elements is supported.
 const MAX_LOG2_RADIX: u32 = 9; // Radix512
@@ -105,6 +106,7 @@ where
             pq[1] = twiddle;
             for i in 2..(1 << max_deg >> 1) {
                 pq[i] = pq[i - 1];
+                //pq[i].mul_assign(&twiddle);
                 pq[i].mul_assign(&twiddle);
             }
         }
@@ -114,7 +116,7 @@ where
         let mut omegas = vec![G::Scalar::zero(); 32];
         omegas[0] = *omega;
         for i in 1..LOG2_MAX_ELEMENTS {
-            omegas[i] = omegas[i - 1].pow([2u64]);
+            omegas[i] = omegas[i - 1].pow_vartime([2u64]);
         }
 
         self.omegas_buffer.write_from(0, &omegas)?;

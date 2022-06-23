@@ -2,6 +2,7 @@ use fs2::FileExt;
 use log::{debug, info, warn};
 use std::fs::File;
 use std::path::PathBuf;
+
 use crate::arithmetic::Group;
 
 const GPU_LOCK_NAME: &str = "bellman.gpu.lock";
